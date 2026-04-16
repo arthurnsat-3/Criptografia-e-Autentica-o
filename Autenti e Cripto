@@ -1,0 +1,15 @@
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives import hashes
+import os
+
+# Criando um 'Salt' (sal) aleatório para impedir ataques de dicionário
+salt = os.urandom(16)
+
+# Configurando o algoritmo de derivação de chave
+kdf = PBKDF2HMAC(
+    algorithm=hashes.SHA256(),
+    length=32,
+    salt=salt,
+    iterations=600000, # Muitas repetições para tornar o ataque lento para o hacker
+)
+senha_hash = kdf.derive(b"minha_senha_forte")
